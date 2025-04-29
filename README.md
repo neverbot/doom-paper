@@ -35,6 +35,7 @@ The output will look like this:
 
 ```bash
 $ build/waddup ../../idgames_202003/idgames/ ../../wads
+
 WAD DUPlicate detector:
 Searching for WAD files in directory: ../../idgames_202003/idgames/
 Total WAD files found: 7614
@@ -76,8 +77,8 @@ cd scripts
 As the script could take a long time, it's made to run alphabetically, so you can stop it where you want (`ctrl + c`) and run it again later, starting where you want. If you provide the argument `--start`, it will skip files until it finds one that matched the wildcards provided. For example, if you converted the files until one that stars with `000123_`, you can run the script again with the argument `--start=000123*`.
 
 ```bash
-cd scripts
-./wads2json.sh --start=000008*
+$ cd scripts
+$ ./wads2json.sh --start=000008*
 
 Skipping: ../wads/000001_deathmatch_deathtag_behetag_Behetag.wad
 Skipping: ../wads/000002_deathmatch_doombot_dbot51_ctflevel.wad
