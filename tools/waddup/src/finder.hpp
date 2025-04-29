@@ -22,5 +22,8 @@ namespace waddup {
         hash_map_;  // hash -> vector of files with that hash
 
     static std::string calculateFileHash(const std::string &filepath);
+
+    std::size_t file_counter_ = 0;  // Counter for generating unique filenames
+    std::string makeDestinationPath(const std::string &originalPath);
   };
 }  // namespace waddup

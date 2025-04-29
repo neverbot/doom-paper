@@ -159,8 +159,8 @@ namespace waddup {
         }
       } else if (!destination_.empty()) {  // Single file, copy to destination
         const auto &filepath = files[0];
-        fs::path    destPath =
-            fs::path(destination_) / fs::path(filepath).filename();
+        fs::path    destPath = makeDestinationPath(filepath);
+
         try {
           fs::copy_file(filepath, destPath,
                         fs::copy_options::overwrite_existing);
@@ -185,8 +185,8 @@ namespace waddup {
         // If destination is set, copy the first instance
         if (!destination_.empty()) {
           const auto &firstFile = files[0];
-          fs::path    destPath =
-              fs::path(destination_) / fs::path(firstFile.path).filename();
+          fs::path    destPath  = makeDestinationPath(firstFile.path);
+
           try {
             fs::copy_file(firstFile.path, destPath,
                           fs::copy_options::overwrite_existing);
@@ -203,6 +203,18 @@ namespace waddup {
     }
 
     return results;
+  }
+
+  /**
+   * @brief Generate a unique destination path for the copied file.
+   * @param originalPath The original file path.
+   * @return A unique destination path for the copied file.
+   */
+  std::string Finder::makeDestinationPath(const std::string &originalPath) {
+    std::stringstream ss;
+    ss << std::setw(6) << std::setfill('0') << ++file_counter_ << "_"
+       << fs::path(originalPath).filename().string();
+    return (fs::path(destination_) / ss.str()).string();
   }
 
 }  // namespace waddup
