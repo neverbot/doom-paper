@@ -24,7 +24,7 @@ make
 build/waddup ../../idgames_202003/idgames/ ../../wads
 ```
 
-The tool will take a while to run, but it will create a new directory with the non-repeated WAD files. For the curious, the tool groups wad files by file size, and then by SHA256 hash. It will copy the first instance of each WAD file to the new directory.
+The tool will take just some seconds to run, and it will create a new directory with the non-repeated WAD files. For the curious, the tool groups wad files by file size, and then by SHA256 hash. It will copy the first instance of each WAD file to the new directory.
 
 The output will look like this:
 
