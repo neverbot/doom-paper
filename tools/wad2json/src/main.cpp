@@ -35,7 +35,8 @@ int main(int argc, char *argv[]) {
     if (verbose) {
       std::cout << "WAD file converted to JSON successfully.\n";
     } else {
-      std::cout << wadFilePath << " converted to " << jsonFilePath << "\n";
+      std::cout << std::filesystem::path(wadFilePath).filename().string()
+                << " converted to JSON.\n";
     }
   } catch (const std::exception &e) {
     std::cerr << "Error: " << e.what() << "\n";
