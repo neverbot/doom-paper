@@ -173,7 +173,7 @@ namespace waddup {
         try {
           fs::copy_file(filepath, destPath,
                         fs::copy_options::overwrite_existing);
-          results.push_back("Copied unique WAD: " + filepath);
+          // results.push_back("Copied unique WAD: " + filepath);
         } catch (const fs::filesystem_error &e) {
           results.push_back("Error copying " + filepath + ": " + e.what());
         }
