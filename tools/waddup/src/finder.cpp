@@ -5,6 +5,8 @@
 #include <iostream>
 #include <openssl/evp.h>
 #include <sstream>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace fs = std::filesystem;
 
@@ -18,8 +20,9 @@ namespace waddup {
    * @throws std::runtime_error if the directory does not exist or is not a
    * directory.
    */
-  Finder::Finder(std::string directory) {
-    directory_ = std::move(directory);
+  Finder::Finder(std::string directory, std::string destination) {
+    directory_   = std::move(directory);
+    destination_ = std::move(destination);
 
     // Now you can add more initialization code here
     if (!fs::exists(directory_)) {
@@ -28,6 +31,19 @@ namespace waddup {
 
     if (!fs::is_directory(directory_)) {
       throw std::runtime_error("Path is not a directory: " + directory_);
+    }
+
+    // Create destination directory if specified and doesn't exist
+    if (!destination_.empty()) {
+      if (!fs::exists(destination_)) {
+        if (!fs::create_directories(destination_)) {
+          throw std::runtime_error("Could not create destination directory: " +
+                                   destination_);
+        }
+      } else if (!fs::is_directory(destination_)) {
+        throw std::runtime_error("Destination path is not a directory: " +
+                                 destination_);
+      }
     }
   }
 
@@ -101,16 +117,31 @@ namespace waddup {
   std::vector<std::string> Finder::findDuplicates() {
     std::vector<std::string>                                  results;
     std::unordered_map<std::size_t, std::vector<std::string>> size_map;
+    std::size_t files_to_process = 0;  // Counter for total WAD files
 
-    // First pass: group files by size
+    std::cout << "Searching for WAD files in directory: " << directory_ << "\n";
+
+    // First pass: group WAD files by size
     for (const auto &entry : fs::recursive_directory_iterator(directory_)) {
-      if (entry.is_regular_file()) {
+      if (entry.is_regular_file() && entry.path().extension().string() ==
+                                         ".wad") {  // Check for .wad extension
         auto size = entry.file_size();
         size_map[size].push_back(entry.path().string());
+        files_to_process++;
       }
     }
 
-    // Second pass: calculate hashes only for files with same size
+    std::cout << "Total WAD files found: " << files_to_process << "\n";
+    if (files_to_process == 0) {
+      results.push_back("No WAD files found in the directory.");
+      return results;
+    }
+
+    // Count total processed files for progress calculation
+    std::size_t                     files_processed = 0;
+    std::unordered_set<std::string> processed_hashes;
+
+    // Second pass: calculate hashes
     for (const auto &[size, files] : size_map) {
       if (files.size() > 1) {  // Only process potential duplicates
         for (const auto &filepath : files) {
@@ -118,30 +149,56 @@ namespace waddup {
           if (!hash.empty()) {
             FileInfo info{filepath, size};
             hash_map_[hash].push_back(info);
+            processed_hashes.insert(hash);
           }
+          files_processed++;
+          float progress =
+              ((float)files_processed * 100.0f) / (float)files_to_process;
+          std::cout << "\rProgress: " << std::fixed << std::setprecision(1)
+                    << progress << "%" << std::flush;
+        }
+      } else if (!destination_.empty()) {  // Single file, copy to destination
+        const auto &filepath = files[0];
+        fs::path    destPath =
+            fs::path(destination_) / fs::path(filepath).filename();
+        try {
+          fs::copy_file(filepath, destPath,
+                        fs::copy_options::overwrite_existing);
+          results.push_back("Copied unique WAD: " + filepath);
+        } catch (const fs::filesystem_error &e) {
+          results.push_back("Error copying " + filepath + ": " + e.what());
         }
       }
     }
 
+    std::cout << "\nHash calculation complete.\n\n";
+
     // Generate results for files with matching hashes
     for (const auto &[hash, files] : hash_map_) {
       if (files.size() > 1) {
-        results.push_back("Found duplicate files with hash " + hash + ":");
+        results.push_back("Found duplicate WAD files with hash " + hash + ":");
         for (const auto &file : files) {
           results.push_back("  " + file.path + " (" +
                             std::to_string(file.size) + " bytes)");
-
-          // Add first few lines of each file for verification
-          // std::ifstream f(file.path);
-          // std::string   line;
-          // int           lineCount = 0;
-          // results.push_back("  Contents:");
-          // while (std::getline(f, line) && lineCount < 3) {
-          //   results.push_back("    " + line);
-          //   lineCount++;
-          // }
-          // results.push_back("");
         }
+
+        // If destination is set, copy the first instance
+        if (!destination_.empty()) {
+          const auto &firstFile = files[0];
+          fs::path    destPath =
+              fs::path(destination_) / fs::path(firstFile.path).filename();
+          try {
+            fs::copy_file(firstFile.path, destPath,
+                          fs::copy_options::overwrite_existing);
+            results.push_back("Copied first instance to destination: " +
+                              destPath.string());
+          } catch (const fs::filesystem_error &e) {
+            results.push_back("Error copying to destination: " +
+                              std::string(e.what()));
+          }
+        }
+
+        results.push_back("");
       }
     }
 

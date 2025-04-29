@@ -7,7 +7,7 @@
 namespace waddup {
   class Finder {
   public:
-    explicit Finder(std::string directory);
+    explicit Finder(std::string directory, std::string destination);
     std::vector<std::string> findDuplicates();
 
   private:
@@ -17,6 +17,7 @@ namespace waddup {
     };
 
     std::string directory_;
+    std::string destination_;
     std::unordered_map<std::string, std::vector<FileInfo>>
         hash_map_;  // hash -> vector of files with that hash
 

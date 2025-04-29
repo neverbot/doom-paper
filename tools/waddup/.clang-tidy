@@ -9,6 +9,7 @@ Checks: '
   -modernize-use-trailing-return-type,
   -modernize-return-braced-init-list,
   -modernize-avoid-c-arrays,
+  -modernize-use-emplace,
   -clang-diagnostic-c++17-extensions,
   -bugprone-easily-swappable-parameters,
   -bugprone-reserved-identifier,
