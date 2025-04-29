@@ -66,3 +66,28 @@ make
 build/wad2json ../../wads/000001_deathmatch_deathtag_behetag_Behetag.wad ../../test.json
 ```
 
+Use the script in `scripts/wads2json.sh` to convert all the WAD files in the `wads` directory to JSON format. The script will use the `wad2json` tool with every WAD file in the `wads` directory and will store the JSON files in the same directory. It will take a while to run, so be patient. After the script finishes, you will have a new directory with all the WAD files converted to JSON format.
+
+```bash
+cd scripts
+./wads2json.sh
+```
+
+As the script could take a long time, it's made to run alphabetically, so you can stop it where you want (`ctrl + c`) and run it again later, starting where you want. If you provide the argument `--start`, it will skip files until it finds one that matched the wildcards provided. For example, if you converted the files until one that stars with `000123_`, you can run the script again with the argument `--start=000123*`.
+
+```bash
+cd scripts
+./wads2json.sh --start=000008*
+
+Skipping: ../wads/000001_deathmatch_deathtag_behetag_Behetag.wad
+Skipping: ../wads/000002_deathmatch_doombot_dbot51_ctflevel.wad
+Skipping: ../wads/000003_deathmatch_doombot_dbot51_ZDoomB.wad
+Skipping: ../wads/000004_deathmatch_facility_Facility.wad
+Skipping: ../wads/000005_deathmatch_skulltag_99coop_99coop.wad
+Skipping: ../wads/000006_deathmatch_skulltag_mek-ttge_Mek-TTGE.wad
+Skipping: ../wads/000007_deathmatch_skulltag_basebldm_BASEBALLDM.wad
+000008_deathmatch_skulltag_td2_td2.wad converted to JSON.
+000009_deathmatch_skulltag_td5_TD5.wad converted to JSON.
+...
+```
+
