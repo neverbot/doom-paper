@@ -223,9 +223,24 @@ namespace waddup {
    * @return A unique destination path for the copied file.
    */
   std::string Finder::makeDestinationPath(const std::string &originalPath) {
+    fs::path original = fs::path(originalPath);
+    fs::path relative = fs::relative(original, directory_);
+
+    // Convert path separators to underscores and remove the extension
+    std::string path_part = relative.parent_path().string();
+    std::replace(path_part.begin(), path_part.end(), '/', '_');
+
     std::stringstream ss;
-    ss << std::setw(6) << std::setfill('0') << ++file_counter_ << "_"
-       << fs::path(originalPath).filename().string();
+    ss << std::setw(6) << std::setfill('0') << ++file_counter_ << "_";
+
+    // Add path part if it exists
+    if (!path_part.empty()) {
+      ss << path_part << "_";
+    }
+
+    // Add original filename
+    ss << relative.stem().string() << relative.extension().string();
+
     return (fs::path(destination_) / ss.str()).string();
   }
 
