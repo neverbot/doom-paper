@@ -12,8 +12,8 @@ conan profile detect
 make
 ```
 
-## Usage
+## Usage
 
 ```bash
-./build/waddup ../../idgames_202003/idgames/
+build/waddup <path with lots of wads in different directories> <destination path for non repeated wad files>
 ```
