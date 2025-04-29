@@ -10,7 +10,7 @@ Uncompress the zip file (twice, it has another zip inside), so you will have a b
 
 Use the script in `scripts/unzip-everything.sh` to uncompress all the zip files. This will take a while, so be patient. After the script finishes, you will have a really big collection of directories (~41GB) with WAD and TXT files with descriptions and informations about such WAD files.
 
-## Filter data
+### Filter data
 
 I've built the `waddup` command line tool in C++ to filter the WAD files. It will take a directory with a lot of WAD files and any other things and will create a new directory with only the non-repeated WAD files.
 
