@@ -117,7 +117,6 @@ namespace waddup {
   std::vector<std::string> Finder::findDuplicates() {
     std::vector<std::string>                                  results;
     std::unordered_map<std::size_t, std::vector<std::string>> size_map;
-    std::size_t files_to_process = 0;  // Counter for total WAD files
 
     std::cout << "Searching for WAD files in directory: " << directory_ << "\n";
 
@@ -127,7 +126,15 @@ namespace waddup {
                                          ".wad") {  // Check for .wad extension
         auto size = entry.file_size();
         size_map[size].push_back(entry.path().string());
-        files_to_process++;
+      }
+    }
+
+    std::size_t files_to_process = 0;  // Counter for total WAD files
+    for (const auto &[size, files] : size_map) {
+      if (files.size() > 1) {
+        files_to_process += files.size();  // Count all potential duplicates
+      } else if (!destination_.empty()) {
+        files_to_process++;  // Count unique files to copy
       }
     }
 
@@ -138,24 +145,26 @@ namespace waddup {
     }
 
     // Count total processed files for progress calculation
-    std::size_t                     files_processed = 0;
-    std::unordered_set<std::string> processed_hashes;
+    std::size_t files_processed = 0;
+    auto        updateProgress  = [&files_processed, files_to_process]() {
+      float progress = (files_processed * 100.0f) / files_to_process;
+      std::cout << "\rProgress: " << std::fixed << std::setprecision(1)
+                << progress << "%" << std::flush;
+    };
 
-    // Second pass: calculate hashes
+    // Second pass: calculate hashes and copy files
     for (const auto &[size, files] : size_map) {
       if (files.size() > 1) {  // Only process potential duplicates
         for (const auto &filepath : files) {
           auto hash = calculateFileHash(filepath);
+
           if (!hash.empty()) {
             FileInfo info{filepath, size};
             hash_map_[hash].push_back(info);
-            processed_hashes.insert(hash);
           }
+
           files_processed++;
-          float progress =
-              ((float)files_processed * 100.0f) / (float)files_to_process;
-          std::cout << "\rProgress: " << std::fixed << std::setprecision(1)
-                    << progress << "%" << std::flush;
+          updateProgress();
         }
       } else if (!destination_.empty()) {  // Single file, copy to destination
         const auto &filepath = files[0];
@@ -168,10 +177,13 @@ namespace waddup {
         } catch (const fs::filesystem_error &e) {
           results.push_back("Error copying " + filepath + ": " + e.what());
         }
+
+        files_processed++;
+        updateProgress();
       }
     }
 
-    std::cout << "\nHash calculation complete.\n\n";
+    std::cout << "\nProcessing complete.\n\n";
 
     // Generate results for files with matching hashes
     for (const auto &[hash, files] : hash_map_) {
