@@ -1,7 +1,9 @@
 
 # wad2json
 
-This is a tool to convert WAD files to JSON format.
+This is a tool to convert WAD files to JSON format. The tool is built with C++ and uses the `conan` package manager to manage dependencies.
+
+**Work in progress**: currently the tool converts `vertices`, `linedefs`, `sidedefs`, `sectors` and `things` to JSON format. 
 
 ## Installation
 
@@ -43,7 +45,6 @@ A WAD file has three main parts:
 
 ```json
 {
-  "level_name": "E1M1",
   "vertices": [
     {"x": 0, "y": 0},
     {"x": 128, "y": 0},
