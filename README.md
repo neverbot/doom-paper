@@ -10,6 +10,11 @@ Uncompress the zip file (twice, it has another zip inside), so you will have a b
 
 Use the script in `scripts/unzip-everything.sh` to uncompress all the zip files. This will take a while, so be patient. After the script finishes, you will have a really big collection of directories (~41GB) with WAD and TXT files with descriptions and informations about such WAD files.
 
+```bash
+cd scripts
+./unzip-everything.sh
+```
+
 ### Filter data
 
 I've built the `waddup` command line tool in C++ to filter the WAD files. It will take a directory with a lot of WAD files and any other things and will create a new directory with only the non-repeated WAD files.
@@ -45,3 +50,19 @@ Copied first instance to destination: ../../wads/007425_combos_rdnd_rdndtest.wad
 ```
 
 With this filter we can move from a collection of ~41GB of mixed files to ~27GB of non repeated WADs.
+
+### Convert data
+
+Now we can convert the WAD files to JSON format. I've built the C++ `wad2json` tool that will take a WAD file and convert it to a JSON file. The tool is built with conan and make, so you need to build it first.
+
+```bash
+cd tools/wad2json
+
+# The tool is built with conan and make
+conan profile detect
+make
+
+# example of use
+build/wad2json ../../wads/000001_deathmatch_deathtag_behetag_Behetag.wad ../../test.json
+```
+
