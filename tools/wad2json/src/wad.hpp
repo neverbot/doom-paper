@@ -9,7 +9,7 @@
 class WAD {
 public:
   // Constructor takes WAD file path
-  explicit WAD(const std::string &filepath);
+  explicit WAD(const std::string &filepath, bool verbose = false);
 
   // WAD header structure
   struct Header {
@@ -75,6 +75,7 @@ public:
   nlohmann::json toJSON() const;
 
 private:
+  bool                   verbose_;
   std::string            filepath_;
   Header                 header_;
   std::vector<Directory> directory_;

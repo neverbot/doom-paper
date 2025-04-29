@@ -8,8 +8,9 @@
  * @throws std::runtime_error if the file cannot be opened or is not a valid WAD
  * file
  */
-WAD::WAD(const std::string &filepath) {
+WAD::WAD(const std::string &filepath, bool verbose) {
   filepath_ = filepath;
+  verbose_  = verbose;
 
   std::ifstream file(filepath_, std::ios::binary);
 
@@ -29,8 +30,10 @@ WAD::WAD(const std::string &filepath) {
     throw std::runtime_error("Not a valid WAD file");
   }
 
-  std::cout << "WAD type: " << id << std::endl;
-  std::cout << "Num lumps: " << header_.numlumps << std::endl;
+  if (verbose_) {
+    std::cout << "WAD type: " << id << std::endl;
+    std::cout << "Num lumps: " << header_.numlumps << std::endl;
+  }
 
   // Read directory
   readDirectory();
@@ -180,31 +183,41 @@ void WAD::processWAD() {
   // Read vertices
   if (findLump("VERTEXES", offset, size)) {
     vertices_ = readVertices(offset, size);
-    std::cout << "Loaded " << vertices_.size() << " vertices\n";
+    if (verbose_) {
+      std::cout << "Loaded " << vertices_.size() << " vertices\n";
+    }
   }
 
   // Read linedefs
   if (findLump("LINEDEFS", offset, size)) {
     linedefs_ = readLinedefs(offset, size);
-    std::cout << "Loaded " << linedefs_.size() << " linedefs\n";
+    if (verbose_) {
+      std::cout << "Loaded " << linedefs_.size() << " linedefs\n";
+    }
   }
 
   // Read sidedefs
   if (findLump("SIDEDEFS", offset, size)) {
     sidedefs_ = readSidedefs(offset, size);
-    std::cout << "Loaded " << sidedefs_.size() << " sidedefs\n";
+    if (verbose_) {
+      std::cout << "Loaded " << sidedefs_.size() << " sidedefs\n";
+    }
   }
 
   // Read sectors
   if (findLump("SECTORS", offset, size)) {
     sectors_ = readSectors(offset, size);
-    std::cout << "Loaded " << sectors_.size() << " sectors\n";
+    if (verbose_) {
+      std::cout << "Loaded " << sectors_.size() << " sectors\n";
+    }
   }
 
   // Read things
   if (findLump("THINGS", offset, size)) {
     things_ = readThings(offset, size);
-    std::cout << "Loaded " << things_.size() << " things\n";
+    if (verbose_) {
+      std::cout << "Loaded " << things_.size() << " things\n";
+    }
   }
 }
 
