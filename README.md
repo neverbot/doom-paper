@@ -17,7 +17,7 @@ cd scripts
 
 ### Filter data
 
-I've built the `waddup` command line tool in C++ to filter the WAD files. It will take a directory with a lot of WAD files and any other things and will create a new directory with only the non-repeated WAD files.
+I've built the [`waddup` command line tool](./tools/waddup/) in C++ to filter the WAD files. It will take a directory with a lot of WAD files and any other things and will create a new directory with only the non-repeated WAD files.
 
 ```bash
 cd tools/waddup
@@ -54,7 +54,7 @@ With this filter we can move from a collection of ~41GB of mixed files to ~27GB 
 
 ### Convert data
 
-Now we can convert the WAD files to JSON format. I've built the C++ `wad2json` tool that will take a WAD file and convert it to a JSON file. The tool is built with conan and make, so you need to build it first.
+Now we can convert the WAD files to JSON format. I've built the C++ [`wad2json` command line tool](./tools/wad2json/) that will take a WAD file and convert it to a JSON file. The tool is built with conan and make, so you need to build it first.
 
 ```bash
 cd tools/wad2json
