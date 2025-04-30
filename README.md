@@ -6,8 +6,8 @@
 
 This repository uses Git submodules for some tools:
 
-- [tools/wadconvert](tools/wadconvert) - Tool to convert WAD files to JSON and other formats.
-- [tools/waddup](tools/waddup) - Tool to detect and filter duplicate WAD files.
+- [tools/wadconvert](https://github.com/neverbot/wadconvert) - Tool to convert WAD files to JSON and other formats.
+- [tools/waddup](https://github.com/neverbot/waddup) - Tool to detect and filter duplicate WAD files.
 
 ```bash
 # Clone the repository with submodules
@@ -32,7 +32,7 @@ cd scripts
 
 ### Filter data
 
-I've built the [`waddup` command line tool](./tools/waddup/) in C++ to filter the WAD files. It will take a directory with a lot of WAD files and any other things and will create a new directory with only the non-repeated WAD files.
+I've built the [`waddup` command line tool](https://github.com/neverbot/waddup) in C++ to filter the WAD files. It will take a directory with a lot of WAD files and any other things and will create a new directory with only the non-repeated WAD files.
 
 ```bash
 cd tools/waddup
@@ -69,20 +69,20 @@ With this filter we can move from a collection of ~41GB of mixed files to ~27GB 
 
 ### Convert data
 
-Now we can convert the WAD files to JSON format. I've built the C++ [`wad2json` command line tool](./tools/wad2json/) that will take a WAD file and convert it to a JSON file. The tool is built with conan and make, so you need to build it first.
+Now we can convert the WAD files to JSON format. I've built the C++ [`wadconvert` command line tool](https://github.com/neverbot/wadconvert) that will take a WAD file and convert it to a JSON file. The tool is built with conan and make, so you need to build it first.
 
 ```bash
-cd tools/wad2json
+cd tools/wadconvert
 
 # The tool is built with conan and make
 conan profile detect
 make
 
 # example of use
-build/wad2json ../../wads/000001_deathmatch_deathtag_behetag_Behetag.wad ../../test.json
+build/wadconvert ../../wads/000001_deathmatch_deathtag_behetag_Behetag.wad ../../test.json
 ```
 
-Use the script in `scripts/wads2json.sh` to convert all the WAD files in the `wads` directory to JSON format. The script will use the `wad2json` tool with every WAD file in the `wads` directory and will store the JSON files in the same directory. It will take a while to run, so be patient. After the script finishes, you will have a new directory with all the WAD files converted to JSON format.
+Use the script in `scripts/wads2json.sh` to convert all the WAD files in the `wads` directory to JSON format. The script will use the `wadconvert` tool with every WAD file in the `wads` directory and will store the JSON files in the same directory. It will take a while to run, so be patient. After the script finishes, you will have a new directory with all the WAD files converted to JSON format.
 
 ```bash
 cd scripts
