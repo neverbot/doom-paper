@@ -82,7 +82,7 @@ make
 build/wadconvert -json ../../wads/000001_deathmatch_deathtag_behetag_Behetag.wad ../../test.json
 ```
 
-After using it for a while, instead of keep using JSON as the format to store the information, I decided to create a custom DSL (Domain Specific Language) to store the information in a more readable way. The DSL is a simple text format that can be easily parsed and converted. 
+After using it for a while, instead of keep using JSON as the format to store the information, I decided to create a custom DSL (Domain Specific Language) to store the information in a more readable way. The DSL is a simple text format that can be easily parsed and converted. Take a look to the [`wadconvert`](https://github.com/neverbot/wadconvert) readme file for more information about the DSL format. The tool can convert WAD files to DSL format with the `-dsl` option.
 
 ```bash
 # example of use
