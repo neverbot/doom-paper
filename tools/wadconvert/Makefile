@@ -13,7 +13,7 @@ LDFLAGS = $(CONAN_LIB_DIRS) $(CONAN_LIBS)
 
 SRC_DIR = src
 BUILD_DIR = build
-TARGET = wad2json
+TARGET = wadconvert
 
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)

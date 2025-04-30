@@ -4,7 +4,8 @@
 
 int main(int argc, char *argv[]) {
   if (argc < 3 || argc > 4) {
-    std::cout << "Usage: wad2json <wad file> <output json file> [--verbose]\n";
+    std::cout
+        << "Usage: wadconvert <wad file> <output json file> [--verbose]\n";
     std::cout << "  wad file: Path to the WAD file to convert\n";
     std::cout << "  output json file: Path to the output JSON file\n";
     std::cout << "  --verbose: Optional flag for detailed output\n";
