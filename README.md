@@ -119,6 +119,9 @@ After converting all the WAD files, I noticed that some of them were not convert
 <details>
 <summary>WAD files not converted to DSL</summary>
 
+```bash
+$ ./check-conversions.sh
+
 WAD files not converted to DSL:
 000346_graphics_junkcity___MACOSX_._junkcity.wad
 000588_levels_doom_Ports_s-u_sigil_v1_21___MACOSX_._SIGIL_COMPAT_v1_21.wad
@@ -130,5 +133,6 @@ WAD files not converted to DSL:
 005933_levels_doom2_Ports_s-u_testfcil___MACOSX_._testfcil.wad
 006744_levels_doom2_Ports_s-u_stranger___MACOSX_._STRANGER.wad
 007380_levels_doom2_s-u_ultra_ultra.wad
+```
 
 </details>
