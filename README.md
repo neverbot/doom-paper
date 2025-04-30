@@ -6,11 +6,11 @@
 
 This repository uses Git submodules for some tools:
 
-- [tools/wadconvert](https://github.com/neverbot/wadconvert) - Tool to convert WAD files to JSON and other formats.
-- [tools/waddup](https://github.com/neverbot/waddup) - Tool to detect and filter duplicate WAD files.
+- [wadconvert](https://github.com/neverbot/wadconvert) - Tool to convert WAD files to JSON and other formats.
+- [waddup](https://github.com/neverbot/waddup) - Tool to detect and filter duplicate WAD files.
 
 ```bash
-# Clone the repository with submodules
+# Clone the repository with submodules (the --recursive flag is important)
 git clone --recursive git@github.com:neverbot/doom-paper.git
 cd doom-paper
 ```
