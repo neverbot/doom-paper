@@ -3,5 +3,6 @@
 # WAD directories
 idgames*
 wads/
+wads*/
 
 *.json

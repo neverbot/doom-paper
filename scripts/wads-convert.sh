@@ -3,9 +3,9 @@
 # Directory containing WAD files
 WADS_DIR="../wads"
 # Directory for JSON output
-JSON_DIR="../wads"
-# Path to wad2json executable
-WAD2JSON="../tools/wad2json/build/wad2json"
+DEST_DIR="../wads-dsl"
+# Path to wadconvert executable
+WADCONVERT="../tools/wadconvert/build/wadconvert"
 
 # Parse command line arguments
 START_PATTERN=""
@@ -16,7 +16,7 @@ for arg in "$@"; do
 done
 
 # Create JSON directory if it doesn't exist
-mkdir -p "$JSON_DIR"
+mkdir -p "$DEST_DIR"
 
 # Flag to track if we should start processing
 START_PROCESSING=false
@@ -38,7 +38,7 @@ find "$WADS_DIR" -type f -iname "*.wad" | sort | while read -r wad_file; do
   fi
 
   # Create JSON path with same name
-  json_file="$JSON_DIR/${base_name}.json"
+  json_file="$DEST_DIR/${base_name}.dsl"
 
   # Check if JSON file exists and remove it
   if [ -f "$json_file" ]; then
@@ -47,7 +47,7 @@ find "$WADS_DIR" -type f -iname "*.wad" | sort | while read -r wad_file; do
   fi
 
   # echo "Converting: $wad_file"
-  "$WAD2JSON" "$wad_file" "$json_file"
+  "$WADCONVERT" -dsl "$wad_file" "$json_file"
 done
 
 echo "Conversion complete!"
