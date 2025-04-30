@@ -2,6 +2,21 @@
 
 ## What am I doing here?
 
+## Project Structure
+
+This repository uses Git submodules for some tools:
+
+- [tools/wadconvert](tools/wadconvert) - Tool to convert WAD files to JSON and other formats.
+- [tools/waddup](tools/waddup) - Tool to detect and filter duplicate WAD files.
+
+```bash
+# Clone the repository with submodules
+git clone --recursive git@github.com:neverbot/doom-paper.git
+cd doom-paper
+```
+
+## Steps followed
+
 ### Get data
 
 I've downloaded [a big WAD file repository](https://archive.org/details/idgames_202003) (~20GB) from the Internet Archive. They have [a bigger one](https://archive.org/details/wadarchive) (~975GB) but currently I do not have the space to process it, so let's work for a while with the "smaller" one until we get some results.
