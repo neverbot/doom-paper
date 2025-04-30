@@ -1,0 +1,6 @@
+[submodule "tools/wadconvert"]
+	path = tools/wadconvert
+	url = git@github.com:neverbot/wadconvert.git
+[submodule "tools/waddup"]
+	path = tools/waddup
+	url = git@github.com:neverbot/waddup.git
